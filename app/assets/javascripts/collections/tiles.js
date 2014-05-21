@@ -36,5 +36,8 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
 
 
 
+  },
+  initialize: function (){
+
   }
 })
