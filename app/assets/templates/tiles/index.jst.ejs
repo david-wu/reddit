@@ -1,0 +1,22 @@
+
+<div id="container">
+<%tiles.each(function(tile){ %>
+  <div class="tile">
+    <a href='<%= tile.get('url') %>'><%= tile.get('title')%></a><br>
+    <img class='tile-image' src='<%= tile.get('imgSrc') %>'>
+  </div>
+<% }) %>
+</div>
+
+
+
+
+
+<script>
+var container = document.querySelector('#container');
+var msnry = new Masonry( container, {
+  // options...
+  itemSelector: '.tile',
+  columnWidth: 400
+});
+</script>
