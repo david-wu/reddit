@@ -6,21 +6,44 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
   },
   routes: {
     "index": "index",
+    "all": "all",
+    "aww": "aww",
+    "cats": "cats",
+    "slothBan": "slothBan",
     "feed": "feed",
     "showUser/:id": "showUser",
     "newUser": "signUp",
     "newSession": "signIn",
   },
   index: function(){
-    console.log("router#index")
+
+  },
+  feed: function(){
+    console.log("router#feed")
+    this.$rootEl.show();
+    this.$minorEl.html('');
+
+    //creates a wall
+    if(!this.walls['feed']){
+      this._createWall('feed');
+    }
+    var wall = this.walls['feed'];
+    if(wall.collection.length === 0){
+      wall.view.render();
+    }
+
+   this._swapWall(wall);
+  },
+  all: function(){
+    console.log("router#all")
     this.$rootEl.show();
     this.$minorEl.html('');
 
     //creates a wall and populates
-    if(!this.walls['index']){
-      this._createWall('index');
+    if(!this.walls['all']){
+      this._createWall('all');
     }
-    var wall = this.walls['index'];
+    var wall = this.walls['all'];
     if(wall.collection.length === 0){
       wall.collection.getMore(['all'],function(){
         wall.view.render();
@@ -29,22 +52,57 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
 
    this._swapWall(wall);
   },
-  feed: function(){
-    console.log("router#feed")
+  aww: function(){
+    console.log("router#aww")
     this.$rootEl.show();
     this.$minorEl.html('');
 
     //creates a wall and populates
-    if(!this.walls['feed']){
-      this._createWall('feed');
+    if(!this.walls['aww']){
+      this._createWall('aww');
     }
-    var wall = this.walls['feed'];
+    var wall = this.walls['aww'];
     if(wall.collection.length === 0){
       wall.collection.getMore(['aww'],function(){
         wall.view.render();
       });
     }
 
+
+   this._swapWall(wall);
+  },
+  cats: function(){
+    console.log("router#cats")
+    this.$rootEl.show();
+    this.$minorEl.html('');
+
+    //creates a wall and populates
+    if(!this.walls['cats']){
+      this._createWall('cats');
+    }
+    var wall = this.walls['cats'];
+    if(wall.collection.length === 0){
+      wall.collection.getMore(['cats'],function(){
+        wall.view.render();
+      });
+    }
+   this._swapWall(wall);
+  },
+  slothBan: function(){
+    console.log("router#all")
+    this.$rootEl.show();
+    this.$minorEl.html('');
+
+    //creates a wall and populates
+    if(!this.walls['slothBan']){
+      this._createWall('slothBan');
+    }
+    var wall = this.walls['slothBan'];
+    if(wall.collection.length === 0){
+      wall.collection.getMore(['sloths', 'banana'],function(){
+        wall.view.render();
+      });
+    }
 
    this._swapWall(wall);
   },

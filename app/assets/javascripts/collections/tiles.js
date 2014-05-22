@@ -19,13 +19,12 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
             var imgDomains = ['imgur.com', 'm.imgur.com', 'i.imgur.com']
             if (picFormats.indexOf(lastFour) !== -1) {
               tile.set('imgSrc', tile.get('url'));
-            } else {
-              if (imgDomains.indexOf(tile.get("domain")) !== -1){
-                tile.set('imgSrc', tile.get('url')+".jpg")
-              }else{
-                tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
-              }
+            } else if (imgDomains.indexOf(tile.get("domain")) !== -1){
+              tile.set('imgSrc', tile.get('url')+".jpg")
+            }else{
+              tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
             }
+
             if (that._isUnique(tile)){
               that.add(tile);
             }

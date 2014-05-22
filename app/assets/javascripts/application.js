@@ -13,7 +13,7 @@
 //= require_tree ../templates
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+// require turbolinks
 //= require underscore
 //= require backbone
 //= require wreddit

@@ -1,0 +1,1 @@
+while a wall is hidden, if window size changes, msnry won't layout()

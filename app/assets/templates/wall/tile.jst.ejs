@@ -5,7 +5,7 @@ Starts out hidden, shows and appends to msnry on load
 -->
 
 <div id='<%=tile.cid%>' class="tile panel panel-primary">
-  <%=tile.get('title')%>, <%= tile.cid%>, comments, +, -,
+  <%= tile.cid%>: <%=tile.get('title')%>
   <a href='<%= tile.get('url') %>'>
     <div title="<%= tile.get('title')%>">
       <img class='tile-image' src='<%= tile.get('imgSrc') %>'>
