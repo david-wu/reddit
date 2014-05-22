@@ -1,14 +1,3 @@
-<script>
-  if(!msnry){
-    var container = document.querySelector('#allTiles');
-    var msnry = new Masonry( container, {
-      columnWidth: 255,
-    });
-  }
-
-</script>
-
-<!-- create a set of Tiles -->
 <div id="tileSet">
 <%tiles.each(function(tile){ %>
   <div id='<%=tile.cid%>' class="tile panel panel-primary">

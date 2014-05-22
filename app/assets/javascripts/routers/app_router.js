@@ -2,13 +2,22 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
   initialize: function (options){
     this.$rootEl = options.rootEl;
     this.$minorEl = options.minorEl;
+    this.tileViews = {};
+
+
+    var container = document.querySelector('#allTiles');
+    var msnry = new Masonry( container, {
+      columnWidth: 255,
+    });
 
     //tiles collection and view won't be removed
     this.tiles = new Wreddit.Collections.Tiles();
     this.tileIndexView = new Wreddit.Views.TileIndex({
-      collection: this.tiles
+      collection: this.tiles,
+      msnry: msnry
     })
     this.$rootEl.html(this.tileIndexView.$el);
+
   },
   routes: {
     "index": "index",
@@ -63,47 +72,24 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     this._currentView = view;
     this.$rootEl.html(view.$el);
   },
-  _toggleTileView: function (){
-    if (this._hidden){
-      this._hidden = false;
-      $('#allTiles').show();
-    } else{
-      this._hidden = true;
-      $('#allTiles').hide();
-    }
-  },
   _appendView: function (view){
     this._currentView = view
     this.$rootEl.append(view.$el);
   },
-
   _swapMinorView: function (view){
     this._minorView && this._minorView.remove();
     this._minorView = view;
     this.$minorEl.html(view.$el);
   },
+  //tileViews use a collection, a view, and a msnry
+  _createTileView: function (name) {
+    //tiles collection and view won't be removed
+    var tiles = new Wreddit.Collections.Tiles();
+    var view = new Wreddit.Views.TileIndex({
+      collection: tiles
+    })
+    //this.$rootEl.html(this.tileIndexView.$el);
 
-
-  _restartMasonry: function () {
-    var that = this;
-    if(this.msnry){
-      this.msnry.destroy();
-    }
-    var container = document.querySelector('#allTiles');
-    this.msnry = new Masonry( container, {
-      itemSelector: '.tile',
-      columnWidth: 375,
-    });
-
-  },
-
-  _startMasonry: function(){
-    if(!this.msnry){
-      var container = document.querySelector('#allTiles');
-      this.msnry = new Masonry( container, {
-        itemSelector: '.tile',
-        columnWidth: 375,
-      });
-    }
+    this.tileViews[name] = [];
   }
 })
