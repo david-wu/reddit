@@ -1,12 +1,11 @@
 <script>
-  var container = document.querySelector('#allTiles');
-  var msnry = new Masonry( container, {
-    itemSelector: '.tile',
-    columnWidth: 255,
-  });
-  imagesLoaded('#tileSet',function(){
-    msnry.layout()
-  })
+  if(!msnry){
+    var container = document.querySelector('#allTiles');
+    var msnry = new Masonry( container, {
+      columnWidth: 255,
+    });
+  }
+
 </script>
 
 <!-- create a set of Tiles -->
@@ -20,5 +19,15 @@
       </div>
     </a>
   </div>
+
+  <script>
+    $('#<%=tile.cid%>').hide();
+    msnry.layout()
+    imagesLoaded('#<%=tile.cid%>', function(){
+      $('#<%=tile.cid%>').show()
+      msnry.appended($('#<%=tile.cid%>'))
+
+    })
+  </script>
 <% }) %>
 </div>

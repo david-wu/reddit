@@ -9,6 +9,7 @@ Wreddit.Views.TileIndex = Backbone.View.extend({
     return this;
   },
   initialize: function () {
+    console.log(this.collection)
     //this.listenTo(this.collection, "add", this.render);
   },
 

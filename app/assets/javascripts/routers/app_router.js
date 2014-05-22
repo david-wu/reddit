@@ -2,6 +2,13 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
   initialize: function (options){
     this.$rootEl = options.rootEl;
     this.$minorEl = options.minorEl;
+
+    //tiles collection and view won't be removed
+    this.tiles = new Wreddit.Collections.Tiles();
+    this.tileIndexView = new Wreddit.Views.TileIndex({
+      collection: this.tiles
+    })
+    this.$rootEl.html(this.tileIndexView.$el);
   },
   routes: {
     "index": "index",
@@ -16,15 +23,8 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     var that = this;
 
 
-    var tiles = new Wreddit.Collections.Tiles();
-    var tileIndexView = new Wreddit.Views.TileIndex({
-      collection: tiles
-    })
-    this._appendView(tileIndexView);
-
-    tiles.getMore(function(){
-      tileIndexView.render();
-      // that._restartMasonry();
+    this.tiles.getMore(function(){
+      that.tileIndexView.render();
     });
 
   },

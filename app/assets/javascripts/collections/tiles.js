@@ -25,7 +25,10 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
                 tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
               }
             }
-            that.add(tile);
+            if (that._isUnique(tile)){
+              that.add(tile);
+            }
+
 
           }
         )
@@ -39,5 +42,15 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
   },
   initialize: function (){
 
+  },
+  _isUnique: function(candidateTile){
+
+    this.each(function(tile){
+      console.log(candidateTile.get('url'))
+      if(tile.get('url') === candidateTile.get('url')){
+        return false;
+      }
+    })
+    return true;
   }
 })
