@@ -7,4 +7,12 @@ Wreddit.Views.SignUp = Backbone.View.extend({
     this.$el.html(renderedContent);
     return this;
   },
+  events: {
+    'click #sign-up-btn': 'signUp'
+  },
+  signUp: function (event){
+    event.preventDefault();
+    var attrs = $(event.target.form).serializeJSON();
+    console.log(attrs);
+  }
 })

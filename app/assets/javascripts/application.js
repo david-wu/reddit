@@ -25,3 +25,4 @@
 //= require masonry
 //= require bootstrap
 //= require imagesloaded.pkgd.js
+//= require jquery.serializeJSON
