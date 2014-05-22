@@ -24,3 +24,4 @@
 //= require_tree .
 //= require masonry
 //= require bootstrap
+//= require imagesloaded.pkgd.js

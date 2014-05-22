@@ -4,7 +4,7 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
     console.log("tiles#getMore");
 
     $.getJSON(
-      "http://www.reddit.com/r/aww.json?count=25&jsonp=?", function foo(data){
+      "http://www.reddit.com/r/aww.json?limit=25&jsonp=?", function foo(data){
         $.each(
           data.data.children.slice(0, 25),
           function (i, post) {

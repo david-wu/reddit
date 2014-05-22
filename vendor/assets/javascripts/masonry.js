@@ -10,7 +10,6 @@
  * Bridget makes jQuery widgets
  * v1.0.1
  */
-console.log('assssssssssss');
 ( function( window ) {
 
 

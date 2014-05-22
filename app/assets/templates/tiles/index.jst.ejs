@@ -1,34 +1,24 @@
-
-<div id="container">
-
-  <div class="tile">
-    <form role="form">
-      <div class="form-group">
-        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-      </div>
-      <div class="form-group">
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-      </div>
-      <button class="btn btn-success">Sign In </button>
-    </form>
-  </div>
-
-  <%tiles.each(function(tile){ %>
-    <div class="tile panel panel-primary">
-      <a href='<%= tile.get('url') %>'><%= tile.get('title')%></a><br>
-      <img class='tile-image' src='<%= tile.get('imgSrc') %>'>
-    </div>
-  <% }) %>
-</div>
-
-
-<!-- start Masonry after images load -->
 <script>
-$(window).load(function(){
-  var container = document.querySelector('#container');
+  var container = document.querySelector('#allTiles');
   var msnry = new Masonry( container, {
     itemSelector: '.tile',
-    columnWidth: 375,
+    columnWidth: 255,
   });
-});
+  imagesLoaded('#tileSet',function(){
+    msnry.layout()
+  })
 </script>
+
+<!-- create a set of Tiles -->
+<div id="tileSet">
+<%tiles.each(function(tile){ %>
+  <div id='<%=tile.cid%>' class="tile panel panel-primary">
+    <%=tile.get('title')%>, <%= tile.cid%>, comments, +, -,
+    <a href='<%= tile.get('url') %>'>
+      <div title="<%= tile.get('title')%>">
+        <img class='tile-image' src='<%= tile.get('imgSrc') %>'>
+      </div>
+    </a>
+  </div>
+<% }) %>
+</div>

@@ -15,11 +15,13 @@
  */
 @import "bootstrap";
 .tile {
-    width:350px; /* you can use % */
+    width: 250px;/* you can use % */
     height: auto;
+    outline: red dotted thin;
+    display: inline-block;
 }
 
 .tile-image {
-    width:350px; /* you can use % */
+    width: 250px; /* you can use % */
     height: auto;
 }

@@ -5,8 +5,10 @@ window.Wreddit = {
   Routers: {},
   initialize: function() {
     var $rootEl = $('#allTiles')
+    var $minorEl = $('#allOthers')
     new Wreddit.Routers.Tiles({
-      rootEl: $rootEl
+      rootEl: $rootEl,
+      minorEl: $minorEl,
     });
     Backbone.history.start();
   }
