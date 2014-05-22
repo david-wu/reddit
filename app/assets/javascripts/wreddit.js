@@ -4,7 +4,7 @@ window.Wreddit = {
   Views: {},
   Routers: {},
   initialize: function() {
-    var $rootEl = $('#allTiles')
+    var $rootEl = $('#allWalls')
     var $minorEl = $('#allOthers')
     new Wreddit.Routers.Tiles({
       rootEl: $rootEl,

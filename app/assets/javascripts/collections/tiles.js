@@ -1,10 +1,11 @@
 Wreddit.Collections.Tiles = Backbone.Collection.extend({
-  getMore: function(callback){
+  getMore: function(subrs, callback){
     var that = this;
+    var subs = subrs.join('+');
     console.log("tiles#getMore");
 
     $.getJSON(
-      "http://www.reddit.com/r/aww.json?limit=25&jsonp=?", function foo(data){
+      "http://www.reddit.com/r/"+subs+".json?limit=25&jsonp=?", function foo(data){
         $.each(
           data.data.children.slice(0, 25),
           function (i, post) {
@@ -46,7 +47,6 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
   _isUnique: function(candidateTile){
 
     this.each(function(tile){
-      console.log(candidateTile.get('url'))
       if(tile.get('url') === candidateTile.get('url')){
         return false;
       }

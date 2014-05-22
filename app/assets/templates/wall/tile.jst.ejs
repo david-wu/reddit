@@ -1,0 +1,22 @@
+<!--
+Renders a Tile element
+Tiles need to be appended onto a Mason
+Starts out hidden, shows and appends to msnry on load
+-->
+
+<div id='<%=tile.cid%>' class="tile panel panel-primary">
+  <%=tile.get('title')%>, <%= tile.cid%>, comments, +, -,
+  <a href='<%= tile.get('url') %>'>
+    <div title="<%= tile.get('title')%>">
+      <img class='tile-image' src='<%= tile.get('imgSrc') %>'>
+    </div>
+  </a>
+</div>
+
+<script>
+  $('#<%=tile.cid%>').hide();
+  imagesLoaded('#<%=tile.cid%>', function(){
+    $('#<%=tile.cid%>').show()
+    msnry.appended($('#<%=tile.cid%>'))
+  })
+</script>
