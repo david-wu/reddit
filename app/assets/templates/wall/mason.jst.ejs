@@ -11,6 +11,28 @@ Append Tiles to Masons to create Walls
 
 
 
+
+
+
+
+  function allowDrop(ev){
+    ev.preventDefault();
+  }
+
+  function drag(ev){
+    ev.dataTransfer.setData("Text",ev.target.id);
+  }
+
+  function drop(ev){
+    ev.preventDefault();
+    var data=ev.dataTransfer.getData("Text");
+    console.log(data);
+    console.log(ev.target.id);
+
+    document.getElementById(data).remove();
+    // ev.target.appendChild(document.getElementById(data));
+  }
+
   // (function ($) {
   //       $.each(['show', 'hide'], function (i, ev) {
   //         var el = $.fn[ev];
