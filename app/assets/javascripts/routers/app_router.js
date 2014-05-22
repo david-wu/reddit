@@ -16,29 +16,37 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     this.$rootEl.show();
     this.$minorEl.html('');
 
-    $('#index-wall').show()
-
+    //creates a wall and populates
     if(!this.walls['index']){
       this._createWall('index');
     }
-    var that = this;
     var wall = this.walls['index'];
-
-    //this will only be run the first time
     if(wall.collection.length === 0){
       wall.collection.getMore(['all'],function(){
         wall.view.render();
       });
     }
 
-   // this._swapWall(wall);
+   this._swapWall(wall);
   },
   feed: function(){
-    console.log("router#index")
+    console.log("router#feed")
     this.$rootEl.show();
     this.$minorEl.html('');
 
+    //creates a wall and populates
+    if(!this.walls['feed']){
+      this._createWall('feed');
+    }
+    var wall = this.walls['feed'];
+    if(wall.collection.length === 0){
+      wall.collection.getMore(['aww'],function(){
+        wall.view.render();
+      });
+    }
 
+
+   this._swapWall(wall);
   },
   signUp: function () {
     console.log("router#signUp:")
@@ -69,14 +77,13 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
 
   //shows showWall, hides all other walls
   _swapWall: function (showWall){
-
-    this.walls.each(function(wall){
-      console.log(wall)
-      if(wall !== showWall){
-        $('#'+wall.name).hide();
-      }
-    })
-    $('#'+showWall.name).show();
+    console.log("_swapWall("+showWall.name+")")
+    //hide all walls, then show showWall
+    wallsArr = Object.keys(this.walls);
+    for(var $i = 0; $i < wallsArr.length; $i++){
+      this.walls[wallsArr[$i]].view.$el.hide();
+    }
+    showWall.view.$el.show();
   },
   _swapView: function (view){
     this._currentView && this._currentView.remove();
@@ -99,6 +106,6 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
       tagName: "div id='"+name+"'",
       divId: name,
     })
-    this.$rootEl.html(wall.view.$el);
+    this.$rootEl.append(wall.view.$el);
   }
 })

@@ -7,7 +7,7 @@ Wreddit.Views.Wall = Backbone.View.extend({
     this.$el.append(renderedContent);
   },
   render: function () {
-    console.log('TileIndex#render')
+    console.log('Wall#render')
     var that = this;
     this.$el.html(JST['wall/mason']({
       divId: this.divId
