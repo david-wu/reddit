@@ -1,17 +1,27 @@
 Wreddit.Views.Wall = Backbone.View.extend({
   template: JST['wall/index'],
   addTile: function(tile) {
+    this.collection.add(tile);
     var renderedContent = JST['wall/tile']({
       tile: tile,
-      divId: this.divId
+      divId: this.sub
     })
     this.$el.append(renderedContent);
   },
+  loadMore: function(){
+    var that = this;
+    this.collection.getMore(this.sub.split(' '), function(newTiles){
+      that.loading = false;
+      for(var $i = 0; $i < newTiles.length; $i++){
+        that.addTile(newTiles[$i])
+      }
+    })
+  },
   render: function () {
-    console.log('Wall#render')
     var that = this;
     this.$el.html(JST['wall/mason']({
-      divId: this.divId
+      divId: this.sub,
+      view: this
     }))
     this.collection.each(function(tile){
       that.addTile(tile);
@@ -19,6 +29,7 @@ Wreddit.Views.Wall = Backbone.View.extend({
     return this;
   },
   initialize: function (options) {
-    this.divId = options.divId;
+    this.sub = options.sub;
+    this.loading = false;
   },
 })

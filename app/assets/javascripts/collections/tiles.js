@@ -1,17 +1,22 @@
 Wreddit.Collections.Tiles = Backbone.Collection.extend({
-  getMore: function(subrs, callback){
+  // this just calls the callback with an array of fetched tiles
+  fetch: function(option){
+    option.success();
+    console.log('would fetch, but no rails yet')
+  },
+    getMore: function(subrs, callback){
     var that = this;
     var subs = subrs.join('+');
-    console.log("tiles#getMore"+subs);
-    console.log(subs)
-
+ console.log("http://www.reddit.com/r/"+subs+".json?limit=15&after="+this.lastTile+"&jsonp=?")
     $.getJSON(
-      "http://www.reddit.com/r/"+subs+".json?limit=25&jsonp=?", function foo(data){
+ "http://www.reddit.com/r/"+subs+".json?limit=15&after="+this.lastTile+"&jsonp=?", function (data){
+        var newTiles = [];
         $.each(
           data.data.children.slice(0, 25),
           function (i, post) {
-            var tile = new Wreddit.Models.Tile(post.data)
 
+            var tile = new Wreddit.Models.Tile(post.data)
+            that.lastTile=tile.get('name');
             url = tile.get('url')
             var lastFour = url.substring(url.length-4, url.length)
             var picFormats = ['.jpg', '.png', '.gif']
@@ -25,20 +30,20 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
               tile.set('imgSrc', tile.get('url')+".jpg")
               _.each(badDomain, function (str){
                 if(url.indexOf(str) !== -1){
-                  tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
+                  // tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
                 }
               })
             }else{
-              tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
+              // tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
             }
             if (that._isUnique(tile)){
-              that.add(tile);
+              newTiles.push(tile);
             }
 
 
           }
         )
-        callback();
+        callback(newTiles);
       }
     )
 
@@ -47,7 +52,7 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
 
   },
   initialize: function (){
-
+    this.lastTile = '';
   },
   _isUnique: function(candidateTile){
 

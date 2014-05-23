@@ -1,9 +1,24 @@
-while a wall is hidden, if window size changes, msnry won't layout()
+features:
+  users
+    drag to friends
+  deleting a subreddit needs to delete EVERYTHING
+  save each tile collection and render one after the next when user returns
+    rails/cookies
+  filter out NSFW
 
-infinite scroll
 
-drag entire div instead of just images/text
+optimization:
+  infinite scroll uses more and more memory
+  recycle previous elements
 
-on reload, page ignores navbar and starts at very top
 
-deleting a subreddit needs to delete EVERYTHING
+bugs:
+  while a wall is hidden, if window size changes, msnry won't layout()
+  on reload, page ignores navbar and starts at very top
+  drag entire div instead of just images/text
+
+
+
+database:
+  user has which friends saved
+  user has which subreddits saved

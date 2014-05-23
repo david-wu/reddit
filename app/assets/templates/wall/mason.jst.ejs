@@ -7,11 +7,9 @@ Append Tiles to Masons to create Walls
 <script>
   var container = document.querySelector('#<%=divId%>');
   var <%=divId%>msnry = new Masonry( container, {
-   columnWidth: 260,
+   columnWidth: 360,
   });
   <%=divId%>msnry.layout();
-
-
 
   function allowDrop(ev){
     ev.preventDefault();
@@ -29,23 +27,25 @@ Append Tiles to Masons to create Walls
     if(ev.target.parentElement.id === 'trash-drop'){
       document.getElementById(data).remove();
       <%=divId%>msnry.layout();
+      console.log(<%=divId%>)
     }
-
-    // document.getElementById(data).remove();
   }
 
-  // (function ($) {
-  //       $.each(['show', 'hide'], function (i, ev) {
-  //         var el = $.fn[ev];
-  //         $.fn[ev] = function () {
-  //           this.trigger(ev);
-  //           return el.apply(this, arguments);
-  //         };
-  //       });
-  //     })(jQuery);
-  //
-  //     $('#<%=divId%>').on('show', function() {
-  //           msnry.layout();
-  //     });
+
 
 </script>
+
+
+<!-- keeps loading until screen is full -->
+<% while (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.3)){ %>
+  <% view.loading = true;%>
+  <% view.loadMore(); %>
+<% } %>
+
+<!-- infinite scroll -->
+<% $(window).scroll(function() { %>
+  <% if (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.3)){ %>
+    <% view.loading = true;%>
+    <% view.loadMore(); %>
+  <% } %>
+<% }) %>

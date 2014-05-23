@@ -15,15 +15,19 @@
  */
 @import "bootstrap";
 .tile {
-    width: 250px;/* you can use % */
+    width: 350px;/* you can use % */
     height: auto;
     outline: black dotted thin;
     display: inline-block;
 }
 
 .tile-image {
-    width: 250px; /* you can use % */
+    width: 350px; /* you can use % */
     height: auto;
 }
 
-body { padding-top: 70px; }
+body {
+  padding-top: 70px;
+  padding-left: 15px;
+}
+

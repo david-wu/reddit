@@ -3,116 +3,103 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     this.$rootEl = options.rootEl;
     this.$minorEl = options.minorEl;
     this.walls = {};
-    this._createWall('all');
   },
   routes: {
-    "index": "index",
-    "all": "all",
-    "aww": "aww",
-    "cats": "cats",
-    "slothBan": "slothBan",
     "feed": "feed",
     "showUser/:id": "showUser",
     "newUser": "signUp",
     "newSession": "signIn",
-    "r/:sub": "visitSubWall"
-  },
-  index: function(){
-
-  },
-  feed: function(){
-    console.log("router#feed")
-    this.$rootEl.show();
-    this.$minorEl.html('');
-
-    //creates a wall
-    if(!this.walls['feed']){
-      this._createWall('feed');
-    }
-    var wall = this.walls['feed'];
-    if(wall.collection.length === 0){
-      wall.view.render();
-    }
-
-   this._swapWall(wall);
+    "r/:sub": "visitSubWall",
+    "f/:feed": "visitFeed"
   },
   visitSubWall: function(sub){
-    console.log("creating sub: "+sub)
-    this.$rootEl.show();
-    this.$minorEl.html('');
-
-    //creates a wall and populates
     if(!this.walls[sub]){
-      this._createWall(sub);
-    }
-    var wall = this.walls[sub];
-    if(wall.collection.length === 0){
+      this._createWall(sub, 'sub');
+      var wall = this.walls[sub]
       wall.collection.getMore(sub.split(' '),function(){
         wall.view.render();
       });
     }
    this._swapWall(wall);
   },
+  visitFeed: function(feed){
+    if(!this.walls[feed]){
+      this._createWall(feed, 'feed');
+      var feed = this.walls[feed]
+      feed.collection.fetch({
+        success: function(){
+          feed.view.render();
+        }
+      });
+    }
+   this._swapWall(feed);
+  },
   signUp: function () {
-    console.log("router#signUp:")
-    this.$rootEl.hide();
-    this.$minorEl.show();
-
-    var newUserView = new Wreddit.Views.SignUp({})
-    this._swapMinorView(newUserView);
-    newUserView.render();
-
+    if(!this.newUserView){
+      this.newUserView = new Wreddit.Views.SignUp({})
+    }
+    this.newUserView.render();
+    this._swapView(this.newUserView);
   },
   signIn: function () {
-    console.log("router#signIn:")
-    this.$rootEl.hide();
-    this.$minorEl.show();
+    if(!this.newSessionView){
+      this.newSessionView = new Wreddit.Views.SignIn({})
+    }
+    this.newSessionView.render();
 
-    var newUserView = new Wreddit.Views.SignIn({})
-    this._swapMinorView(newUserView);
-    newUserView.render();
-
+    this._swapView(this.newSessionView);
   },
   showUser: function (user_id) {
     console.log("router#showUser:"+user_id)
     this.$rootEl.show()
-
   },
 
 
-  //shows showWall, hides all other walls
+  //this creates a tileView and stores into this.tileViews
+  _createWall: function (sub, type) {
+    if (type==='sub'){
+      $parentOfLinkToWall = $('#allWall-links')
+    }else{
+      $parentOfLinkToWall = $('#allFeed-links')
+    }
+
+    var wall = this.walls[sub] = {};
+    //tiles collection and view won't be removed
+    wall['name'] = sub;
+
+    wall['collection'] = new Wreddit.Collections.Tiles();
+    wall['view'] = new Wreddit.Views.Wall({
+      collection: wall['collection'],
+      tagName: "div id='"+sub+"'",
+      sub: sub,
+    })
+    $('#allWalls').append(wall.view.$el);
+    $parentOfLinkToWall.prepend('<li draggable="true" ondragstart="drag(event)" id='+sub+'-wall-link> <a href="#r/'+sub+'"id="all-wall-link">'+sub+'</a></li>');
+  },
+
+  //hide all walls, then show showWall
   _swapWall: function (showWall){
     console.log("_swapWall("+showWall.name+")")
-    //hide all walls, then show showWall
+    this.$minorEl.hide();
+    this.$rootEl.show();
     wallsArr = Object.keys(this.walls);
     for(var $i = 0; $i < wallsArr.length; $i++){
       this.walls[wallsArr[$i]].view.$el.hide();
     }
     showWall.view.$el.show();
   },
+
   _swapView: function (view){
-    this._currentView && this._currentView.remove();
-    this._currentView = view;
-    this.$rootEl.html(view.$el);
+    console.log("_swapView("+view+")")
+    this.$minorEl.show();
+    this.$rootEl.hide();
+    this.$minorEl.html(view.$el);
   },
+
   _swapMinorView: function (view){
     this._minorView && this._minorView.remove();
     this._minorView = view;
     this.$minorEl.html(view.$el);
   },
-  //this creates a tileView and stores into this.tileViews
-  _createWall: function (name) {
-    var wall = this.walls[name] = {};
-    //tiles collection and view won't be removed
-    wall['name'] = name;
-    wall['collection'] = new Wreddit.Collections.Tiles();
-    wall['view'] = new Wreddit.Views.Wall({
-      collection: wall['collection'],
-      tagName: "div id='"+name+"'",
-      divId: name,
-    })
-    this.$rootEl.append(wall.view.$el);
-    $('#all-wall-links').append('<li draggable="true" ondragstart="drag(event)" id='+name+
-    '-wall-link> <a href="#r/'+name+'"id="all-wall-link">'+name+'</a></li>');
-  }
+
 })

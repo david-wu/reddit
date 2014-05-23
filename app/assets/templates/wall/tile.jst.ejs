@@ -1,7 +1,6 @@
 <!--
-Renders a Tile element
-Tiles need to be appended onto a Mason
-Starts out hidden, shows and appends to msnry on load
+A hidden tile that shows and appends itself to
+it's wall when finished loading
 -->
 
 <div draggable="true" ondragstart="drag(event)" id='<%=tile.cid%>' class="tile panel panel-primary">
@@ -9,13 +8,33 @@ Starts out hidden, shows and appends to msnry on load
     <%= tile.cid%>: <%=tile.get('title')%>
   </a>
   <div id='<%=tile.cid%>' title="<%= tile.get('title')%>">
-    <img id='<%=tile.cid%>' class='tile-image' src='<%= tile.get('imgSrc') %>'>
+    <a data-toggle="modal" data-target="#<%= tile.cid%>-modal">
+      <img id='<%=tile.cid%>' class='tile-image' src='<%= tile.get('imgSrc') %>'>
+    </a>
+  </div>
+</div>
+
+<div class="modal fade" id="<%= tile.cid%>-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"><%=tile.get('title')%></h4>
+      </div>
+      <div class="modal-body">
+        <img id='<%=tile.cid%>' class='modal-image' src='<%= tile.get('imgSrc') %>'>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
   $('#<%=tile.cid%>').hide();
-  imagesLoaded('#<%=tile.cid%>', function(){
+  var imgLoad = imagesLoaded('#<%=tile.cid%>')
+  imgLoad.on( 'done', function(){
     $('#<%=tile.cid%>').show()
     <%=divId%>msnry.appended($('#<%=tile.cid%>'))
   })
