@@ -47,7 +47,7 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     }
     var wall = this.walls[sub];
     if(wall.collection.length === 0){
-      wall.collection.getMore([sub],function(){
+      wall.collection.getMore(sub.split(' '),function(){
         wall.view.render();
       });
     }

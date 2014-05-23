@@ -5,3 +5,5 @@ infinite scroll
 drag entire div instead of just images/text
 
 on reload, page ignores navbar and starts at very top
+
+deleting a subreddit needs to delete EVERYTHING

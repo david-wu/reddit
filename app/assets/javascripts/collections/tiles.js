@@ -2,7 +2,8 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
   getMore: function(subrs, callback){
     var that = this;
     var subs = subrs.join('+');
-    console.log("tiles#getMore");
+    console.log("tiles#getMore"+subs);
+    console.log(subs)
 
     $.getJSON(
       "http://www.reddit.com/r/"+subs+".json?limit=25&jsonp=?", function foo(data){
