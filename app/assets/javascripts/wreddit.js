@@ -6,7 +6,7 @@ window.Wreddit = {
   initialize: function() {
     var $rootEl = $('#allWalls')
     var $minorEl = $('#allOthers')
-    new Wreddit.Routers.Tiles({
+    Wreddit.router = new Wreddit.Routers.Tiles({
       rootEl: $rootEl,
       minorEl: $minorEl,
     });

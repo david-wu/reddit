@@ -3,6 +3,7 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     this.$rootEl = options.rootEl;
     this.$minorEl = options.minorEl;
     this.walls = {};
+    this._createWall('all');
   },
   routes: {
     "index": "index",
@@ -14,6 +15,7 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     "showUser/:id": "showUser",
     "newUser": "signUp",
     "newSession": "signIn",
+    "r/:sub": "visitSubWall"
   },
   index: function(){
 
@@ -34,76 +36,21 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
 
    this._swapWall(wall);
   },
-  all: function(){
-    console.log("router#all")
+  visitSubWall: function(sub){
+    console.log("creating sub: "+sub)
     this.$rootEl.show();
     this.$minorEl.html('');
 
     //creates a wall and populates
-    if(!this.walls['all']){
-      this._createWall('all');
+    if(!this.walls[sub]){
+      this._createWall(sub);
     }
-    var wall = this.walls['all'];
+    var wall = this.walls[sub];
     if(wall.collection.length === 0){
-      wall.collection.getMore(['all'],function(){
+      wall.collection.getMore([sub],function(){
         wall.view.render();
       });
     }
-
-   this._swapWall(wall);
-  },
-  aww: function(){
-    console.log("router#aww")
-    this.$rootEl.show();
-    this.$minorEl.html('');
-
-    //creates a wall and populates
-    if(!this.walls['aww']){
-      this._createWall('aww');
-    }
-    var wall = this.walls['aww'];
-    if(wall.collection.length === 0){
-      wall.collection.getMore(['aww'],function(){
-        wall.view.render();
-      });
-    }
-
-
-   this._swapWall(wall);
-  },
-  cats: function(){
-    console.log("router#cats")
-    this.$rootEl.show();
-    this.$minorEl.html('');
-
-    //creates a wall and populates
-    if(!this.walls['cats']){
-      this._createWall('cats');
-    }
-    var wall = this.walls['cats'];
-    if(wall.collection.length === 0){
-      wall.collection.getMore(['cats'],function(){
-        wall.view.render();
-      });
-    }
-   this._swapWall(wall);
-  },
-  slothBan: function(){
-    console.log("router#all")
-    this.$rootEl.show();
-    this.$minorEl.html('');
-
-    //creates a wall and populates
-    if(!this.walls['slothBan']){
-      this._createWall('slothBan');
-    }
-    var wall = this.walls['slothBan'];
-    if(wall.collection.length === 0){
-      wall.collection.getMore(['sloths', 'banana'],function(){
-        wall.view.render();
-      });
-    }
-
    this._swapWall(wall);
   },
   signUp: function () {
@@ -165,5 +112,7 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
       divId: name,
     })
     this.$rootEl.append(wall.view.$el);
+    $('#all-wall-links').append('<li draggable="true" ondragstart="drag(event)" id='+name+
+    '-wall-link> <a href="#r/'+name+'"id="all-wall-link">'+name+'</a></li>');
   }
 })

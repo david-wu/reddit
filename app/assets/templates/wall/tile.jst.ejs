@@ -5,7 +5,6 @@ Starts out hidden, shows and appends to msnry on load
 -->
 
 <div draggable="true" ondragstart="drag(event)" id='<%=tile.cid%>' class="tile panel panel-primary">
-
   <a id='<%=tile.cid%>' href='<%= tile.get('url') %>'>
     <%= tile.cid%>: <%=tile.get('title')%>
   </a>
@@ -15,15 +14,9 @@ Starts out hidden, shows and appends to msnry on load
 </div>
 
 <script>
-// $(function() {
-//   $( "#draggable" ).draggable({ handle: "img" });
-//   $( "div, p" ).disableSelection();
-// });
-
-
   $('#<%=tile.cid%>').hide();
   imagesLoaded('#<%=tile.cid%>', function(){
     $('#<%=tile.cid%>').show()
-    msnry.appended($('#<%=tile.cid%>'))
+    <%=divId%>msnry.appended($('#<%=tile.cid%>'))
   })
 </script>

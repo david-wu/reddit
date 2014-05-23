@@ -2,7 +2,8 @@ Wreddit.Views.Wall = Backbone.View.extend({
   template: JST['wall/index'],
   addTile: function(tile) {
     var renderedContent = JST['wall/tile']({
-      tile: tile
+      tile: tile,
+      divId: this.divId
     })
     this.$el.append(renderedContent);
   },
