@@ -11,20 +11,25 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
           function (i, post) {
             var tile = new Wreddit.Models.Tile(post.data)
 
-            //set tile.imgSrc and stores into this collection
-            //albums not working
             url = tile.get('url')
             var lastFour = url.substring(url.length-4, url.length)
             var picFormats = ['.jpg', '.png', '.gif']
             var imgDomains = ['imgur.com', 'm.imgur.com', 'i.imgur.com']
+            var badDomain = ['/a/', '/gallery', '/album/']
+
+            //set tile.imgSrc and stores into this collection
             if (picFormats.indexOf(lastFour) !== -1) {
               tile.set('imgSrc', tile.get('url'));
-            } else if (imgDomains.indexOf(tile.get("domain")) !== -1){
+            } else if ((imgDomains.indexOf(tile.get("domain")) !== -1)){
               tile.set('imgSrc', tile.get('url')+".jpg")
+              _.each(badDomain, function (str){
+                if(url.indexOf(str) !== -1){
+                  tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
+                }
+              })
             }else{
               tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
             }
-
             if (that._isUnique(tile)){
               that.add(tile);
             }

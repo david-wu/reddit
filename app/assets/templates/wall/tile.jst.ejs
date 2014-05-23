@@ -5,12 +5,13 @@ Starts out hidden, shows and appends to msnry on load
 -->
 
 <div draggable="true" ondragstart="drag(event)" id='<%=tile.cid%>' class="tile panel panel-primary">
-  <%= tile.cid%>: <%=tile.get('title')%>
-  <a href='<%= tile.get('url') %>'>
-    <div title="<%= tile.get('title')%>">
-      <img class='tile-image' src='<%= tile.get('imgSrc') %>'>
-    </div>
+
+  <a id='<%=tile.cid%>' href='<%= tile.get('url') %>'>
+    <%= tile.cid%>: <%=tile.get('title')%>
   </a>
+  <div id='<%=tile.cid%>' title="<%= tile.get('title')%>">
+    <img id='<%=tile.cid%>' class='tile-image' src='<%= tile.get('imgSrc') %>'>
+  </div>
 </div>
 
 <script>

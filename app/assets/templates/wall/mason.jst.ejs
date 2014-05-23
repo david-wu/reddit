@@ -1,5 +1,6 @@
 <!--
 Masons place and organize Tiles
+Controls Drag and Drop
 Append Tiles to Masons to create Walls
 -->
 
@@ -26,11 +27,14 @@ Append Tiles to Masons to create Walls
   function drop(ev){
     ev.preventDefault();
     var data=ev.dataTransfer.getData("Text");
-    console.log(data);
-    console.log(ev.target.id);
+    console.log("sending "+data+" to "+ev.target.parentElement.id);
 
-    document.getElementById(data).remove();
-    // ev.target.appendChild(document.getElementById(data));
+    if(ev.target.parentElement.id === 'trash-drop'){
+      document.getElementById(data).remove();
+      msnry.layout();
+    }
+
+    // document.getElementById(data).remove();
   }
 
   // (function ($) {
