@@ -2,40 +2,29 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
   initialize: function (options){
     this.$rootEl = options.rootEl;
     this.$minorEl = options.minorEl;
-    this.walls = {};
+    this.subs = {};
+    this.feeds = {};
   },
   routes: {
-    "feed": "feed",
-    "showUser/:id": "showUser",
     "r/:sub": "visitSubWall",
     "f/:feed": "visitFeed",
+    "showUser/:id": "showUser",
     "newUser": "signUp",
     "newSession": "signIn",
   },
-  visitSubWall: function(sub){
-    var sub = "_r_"+sub;
-    if(!this.walls[sub]){
-      this._createWall(sub, 'sub');
-      var wall = this.walls[sub]
-      wall.collection.getMore(sub.substring(3).split(' '),function(){
-        wall.view.render();
-      });
+  visitSubWall: function(subName){
+    if(!this.subs[subName]){
+      this._createWall(subName, 'sub');
+      this.subs[subName].view.render();
     }
-   this._swapWall(this.walls[sub]);
+    this._swapWall(this.subs[subName]);
   },
-  visitFeed: function(feed){
-    var feed = "_f_"+feed;
-    if(!this.walls[feed]){
-      this._createWall(feed, 'feed');
-      var wall = this.walls[feed]
-      wall.collection.fetch({
-        success: function(){
-          wall.view.render();
-        }
-      });
+  visitFeed: function(feedName){
+    if(!this.feeds[feedName]){
+      this._createWall(feedName, 'feed');
+      this.feeds[feedName].view.render();
     }
-
-   this._swapWall(this.walls[feed]);
+    this._swapWall(this.feeds[feedName]);
   },
   signUp: function () {
     if(!this.newUserView){
@@ -49,7 +38,6 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
       this.newSessionView = new Wreddit.Views.SignIn({})
     }
     this.newSessionView.render();
-
     this._swapView(this.newSessionView);
   },
   showUser: function (user_id) {
@@ -59,25 +47,28 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
 
 
   //this creates a tileView and stores into this.tileViews
-  _createWall: function (name, type) {
+  _createWall: function (wallName, type) {
     if (type === 'sub'){
       var $parentOfLinkToWall = $('#allWall-links')
-      var type = 'r/'
-    }else{
+      var typeId = 'r/'
+      var wall = this.subs[wallName] = {};
+    }else if (type === 'feed'){
       var $parentOfLinkToWall = $('#allFeed-links')
-      var type = 'f/'
+      var typeId = 'f/'
+      var wall = this.feeds[wallName] = {};
     }
 
-    var wall = this.walls[name] = {};
-    wall['name'] = name;
+    wall['name'] = wallName;
     wall['collection'] = new Wreddit.Collections.Tiles();
     wall['view'] = new Wreddit.Views.Wall({
       collection: wall['collection'],
-      tagName: "div id='"+name+"'",
-      sub: name,
+      tagName: "div class='wall "+wallName+"'",
+      wallName: wallName,
+      type: type
     })
-    $('#allWalls').append(wall.view.$el);
-    $parentOfLinkToWall.prepend('<li ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)" id=_link'+name+'> <a href="#'+type+name.substring(3)+'" id="all-wall-link">'+name.substring(3)+'</a></li>');
+    $('#allWalls').append(wall['view'].$el);
+
+    $parentOfLinkToWall.prepend('<li ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)" id=_link'+wallName+'> <a href="#'+typeId+wallName+'" id="all-wall-link">'+wallName+'</a></li>');
   },
 
   //hide all walls, then show showWall
@@ -86,13 +77,29 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     console.log("_swapWall("+showWall.name+")")
     this.$minorEl.hide();
     this.$rootEl.show();
-    wallsArr = Object.keys(this.walls);
-    for(var $i = 0; $i < wallsArr.length; $i++){
-      this.walls[wallsArr[$i]].view.$el.hide();
+
+    subsArr = Object.keys(this.subs);
+    for(var $i = 0; $i < subsArr.length; $i++){
+      this.subs[subsArr[$i]].view.$el.hide();
+    }
+    feedsArr = Object.keys(this.feeds);
+    for(var $i = 0; $i < feedsArr.length; $i++){
+      this.feeds[feedsArr[$i]].view.$el.hide();
     }
     showWall.view.$el.show();
-  },
 
+    //keep calling loadMore() until page is full
+    function initialLoadMore () {
+      if($(document).height() > $(window).height()*1.4){
+        return false;
+      } else if(!showWall.view.loading){
+        showWall.view.loading = true;
+        showWall.view.loadMore();
+      }
+      window.setTimeout(initialLoadMore, 250)
+    }
+    initialLoadMore();
+  },
   _swapView: function (view){
     console.log("_swapView("+view+")")
     this.$minorEl.show();

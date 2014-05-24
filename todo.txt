@@ -1,3 +1,6 @@
+autoload needs to point to either fetch() from database or reddit api
+
+
 features:
   users
     drag to friends

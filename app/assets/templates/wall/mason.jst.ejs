@@ -6,11 +6,11 @@ Append Tiles to Masons to create Walls
 
 
 <script>
-  var container = document.querySelector('#<%=divId%>');
-  var <%=divId%>msnry = new Masonry( container, {
+  var container = document.querySelector('.wall.<%=wallName%>');
+  var <%=wallName%>msnry = new Masonry( container, {
    columnWidth: 360,
   });
-  <%=divId%>msnry.layout();
+  <%=wallName%>msnry.layout();
 
   //drag n drop functions
   function allowDrop(ev){
@@ -30,21 +30,16 @@ Append Tiles to Masons to create Walls
 
     if(ev.target.parentElement.id === 'trash-drop'){
       document.getElementById(data).remove();
-      <%=divId%>msnry.layout();
-      console.log(<%=divId%>)
+      <%=wallName%>msnry.layout();
+      console.log(<%=wallName%>)
     }
   }
 </script>
 
 
-<!-- on startup, keep loading until screen is full -->
 
 
 
-<% while (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.4)){ %>
-  <% view.loading = true;%>
-  <% view.loadMore(); %>
-<% } %>
 
 
 <!-- infinite scroll -->

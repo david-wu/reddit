@@ -42,12 +42,12 @@ if(<%=!!tile.get('imgSrc')%>){
   var imgLoad = imagesLoaded('#<%=tile.cid%>')
   imgLoad.on( 'done', function(){
     $('#<%=tile.cid%>').show()
-    <%=divId%>msnry.appended($('#<%=tile.cid%>'))
+    <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
   })
 } else if(<%=!!tile.get('media')%>){
-  <%=divId%>msnry.appended($('#<%=tile.cid%>'))
+  <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
 }else{
-  <%=divId%>msnry.appended($('#<%=tile.cid%>'))
+  <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
 }
 </script>
 
