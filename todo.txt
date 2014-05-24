@@ -6,6 +6,13 @@ features:
     rails/cookies
   filter out NSFW
 
+  send anonymous or tag with id
+
+  if you close enough tiles sent by an anon, it should block him
+
+  let you edit elements before sending them to people.
+
+  embed videos
 
 optimization:
   infinite scroll uses more and more memory
@@ -16,9 +23,16 @@ bugs:
   while a wall is hidden, if window size changes, msnry won't layout()
   on reload, page ignores navbar and starts at very top
   drag entire div instead of just images/text
-
-
+  handle 404s and timeouts
+  if not enough content to scroll, gets stuck
 
 database:
   user has which friends saved
   user has which subreddits saved
+
+
+Backbone:
+
+
+SubReddit View
+  SubRedditCollection uses TileModel

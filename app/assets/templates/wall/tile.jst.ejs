@@ -7,10 +7,14 @@ to its wall when finished loading
   <a id='<%=tile.cid%>' href='<%= tile.get('url') %>'>
     <%= tile.cid%>: <%=tile.get('title')%>
   </a>
-  <div id='<%=tile.cid%>' title="<%= tile.get('title')%>">
-    <a data-toggle="modal" data-target="#<%= tile.cid%>-modal">
-      <img id='<%=tile.cid%>' class='tile-image' src='<%= tile.get('imgSrc') %>'>
-    </a>
+  <div id='<%=tile.cid%>' class="<%=tile.cid%>-media" title="<%= tile.get('title')%>">
+
+    <% if(tile.get('imgSrc')){ %>
+      <a data-toggle="modal" data-target="#<%= tile.cid%>-modal">
+        <img id='<%=tile.cid%>' class='tile-image' src='<%= tile.get('imgSrc') %>'>
+      </a>
+    <% } %>
+
   </div>
 </div>
 
@@ -33,10 +37,21 @@ to its wall when finished loading
 </div>
 
 <script>
+if(<%=!!tile.get('imgSrc')%>){
   $('#<%=tile.cid%>').hide();
   var imgLoad = imagesLoaded('#<%=tile.cid%>')
   imgLoad.on( 'done', function(){
     $('#<%=tile.cid%>').show()
     <%=divId%>msnry.appended($('#<%=tile.cid%>'))
   })
+} else if(<%=!!tile.get('media')%>){
+  <%=divId%>msnry.appended($('#<%=tile.cid%>'))
+}else{
+  <%=divId%>msnry.appended($('#<%=tile.cid%>'))
+}
 </script>
+
+<div id='testest'>
+</div>
+<% $(document).ready(function (){ %>
+<% }) %>

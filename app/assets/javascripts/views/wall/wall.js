@@ -8,7 +8,7 @@ Wreddit.Views.Wall = Backbone.View.extend({
     })
     this.$el.append(renderedContent);
   },
-  loadMore: function(){
+  loadMore: function(callback){
     if(this.sub.substring(0,3) === '_r_'){
       var that = this;
       this.collection.getMore(this.sub.substring(3).split(' '),

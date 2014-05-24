@@ -34,21 +34,22 @@ Append Tiles to Masons to create Walls
       console.log(<%=divId%>)
     }
   }
-
-
-
 </script>
 
 
 <!-- on startup, keep loading until screen is full -->
-<% while (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.3)){ %>
+
+
+
+<% while (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.4)){ %>
   <% view.loading = true;%>
   <% view.loadMore(); %>
 <% } %>
 
+
 <!-- infinite scroll -->
 <% $(window).scroll(function() { %>
-  <% if (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.3)){ %>
+  <% if (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.4)){ %>
     <% view.loading = true;%>
     <% view.loadMore(); %>
   <% } %>

@@ -7,10 +7,10 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
   routes: {
     "feed": "feed",
     "showUser/:id": "showUser",
+    "r/:sub": "visitSubWall",
+    "f/:feed": "visitFeed",
     "newUser": "signUp",
     "newSession": "signIn",
-    "r/:sub": "visitSubWall",
-    "f/:feed": "visitFeed"
   },
   visitSubWall: function(sub){
     var sub = "_r_"+sub;
