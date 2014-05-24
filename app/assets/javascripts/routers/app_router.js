@@ -87,16 +87,17 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
       this.feeds[feedsArr[$i]].view.$el.hide();
     }
     showWall.view.$el.show();
+    window[showWall.name + 'msnry'].layout();
 
     //keep calling loadMore() until page is full
     function initialLoadMore () {
-      if($(document).height() > $(window).height()*1.4){
+      if($(document).height() > $(window).height()*1.5){
         return false;
       } else if(!showWall.view.loading){
         showWall.view.loading = true;
         showWall.view.loadMore();
       }
-      window.setTimeout(initialLoadMore, 250)
+      window.setTimeout(initialLoadMore, 500)
     }
     initialLoadMore();
   },
@@ -107,10 +108,5 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     this.$minorEl.html(view.$el);
   },
 
-  _swapMinorView: function (view){
-    this._minorView && this._minorView.remove();
-    this._minorView = view;
-    this.$minorEl.html(view.$el);
-  },
 
 })

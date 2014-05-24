@@ -21,7 +21,6 @@ optimization:
   infinite scroll uses more and more memory
   recycle previous elements
 
-
 bugs:
   while a wall is hidden, if window size changes, msnry won't layout()
   on reload, page ignores navbar and starts at very top

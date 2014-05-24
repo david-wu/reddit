@@ -1,9 +1,4 @@
-<!--
-Masons place and organize Tiles
-Controls Drag and Drop
-Append Tiles to Masons to create Walls
--->
-
+<!--Masons place and organize Tiles-->
 
 <script>
   var container = document.querySelector('.wall.<%=wallName%>');
@@ -36,15 +31,9 @@ Append Tiles to Masons to create Walls
   }
 </script>
 
-
-
-
-
-
-
 <!-- infinite scroll -->
 <% $(window).scroll(function() { %>
-  <% if (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.4)){ %>
+  <% if (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.5)){ %>
     <% view.loading = true;%>
     <% view.loadMore(); %>
   <% } %>

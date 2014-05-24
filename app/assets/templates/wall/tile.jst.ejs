@@ -1,8 +1,4 @@
-<!--
-A hidden tile that shows and appends itself
-to its wall when finished loading
--->
-
+<!--A hidden tile that shows and appends itself-->
 <div draggable="true" ondragstart="drag(event)" id='<%=tile.cid%>' class="tile panel panel-primary">
   <a id='<%=tile.cid%>' href='<%= tile.get('url') %>'>
     <%= tile.cid%>: <%=tile.get('title')%>

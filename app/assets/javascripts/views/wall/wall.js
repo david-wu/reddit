@@ -26,7 +26,11 @@ Wreddit.Views.Wall = Backbone.View.extend({
           }
       })
     } else if(this.type === 'feed'){
-      this.collection.fetch();
+      this.collection.fetch({
+        success: function(){
+          console.log("david, work on rails")
+        },
+      })
     }
   },
   render: function () {
