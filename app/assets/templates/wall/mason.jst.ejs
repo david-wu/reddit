@@ -4,6 +4,7 @@ Controls Drag and Drop
 Append Tiles to Masons to create Walls
 -->
 
+
 <script>
   var container = document.querySelector('#<%=divId%>');
   var <%=divId%>msnry = new Masonry( container, {
@@ -11,6 +12,7 @@ Append Tiles to Masons to create Walls
   });
   <%=divId%>msnry.layout();
 
+  //drag n drop functions
   function allowDrop(ev){
     ev.preventDefault();
   }
@@ -19,10 +21,12 @@ Append Tiles to Masons to create Walls
     ev.dataTransfer.setData("Text",ev.target.id);
   }
 
+
   function drop(ev){
     ev.preventDefault();
     var data=ev.dataTransfer.getData("Text");
     console.log("sending "+data+" to "+ev.target.parentElement.id);
+
 
     if(ev.target.parentElement.id === 'trash-drop'){
       document.getElementById(data).remove();
@@ -36,7 +40,7 @@ Append Tiles to Masons to create Walls
 </script>
 
 
-<!-- keeps loading until screen is full -->
+<!-- on startup, keep loading until screen is full -->
 <% while (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.3)){ %>
   <% view.loading = true;%>
   <% view.loadMore(); %>

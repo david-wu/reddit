@@ -30,11 +30,11 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
               tile.set('imgSrc', tile.get('url')+".jpg")
               _.each(badDomain, function (str){
                 if(url.indexOf(str) !== -1){
-                  // tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
+                  tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
                 }
               })
             }else{
-              // tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
+              tile.set('imgSrc', 'http://pagepeeker.com/thumbs.php?size=x&url='+tile.get('url'))
             }
             if (that._isUnique(tile)){
               newTiles.push(tile);

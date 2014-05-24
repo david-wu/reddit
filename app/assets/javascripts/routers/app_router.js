@@ -13,26 +13,29 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     "f/:feed": "visitFeed"
   },
   visitSubWall: function(sub){
+    var sub = "_r_"+sub;
     if(!this.walls[sub]){
       this._createWall(sub, 'sub');
       var wall = this.walls[sub]
-      wall.collection.getMore(sub.split(' '),function(){
+      wall.collection.getMore(sub.substring(3).split(' '),function(){
         wall.view.render();
       });
     }
-   this._swapWall(wall);
+   this._swapWall(this.walls[sub]);
   },
   visitFeed: function(feed){
+    var feed = "_f_"+feed;
     if(!this.walls[feed]){
       this._createWall(feed, 'feed');
-      var feed = this.walls[feed]
-      feed.collection.fetch({
+      var wall = this.walls[feed]
+      wall.collection.fetch({
         success: function(){
-          feed.view.render();
+          wall.view.render();
         }
       });
     }
-   this._swapWall(feed);
+
+   this._swapWall(this.walls[feed]);
   },
   signUp: function () {
     if(!this.newUserView){
@@ -56,29 +59,30 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
 
 
   //this creates a tileView and stores into this.tileViews
-  _createWall: function (sub, type) {
-    if (type==='sub'){
-      $parentOfLinkToWall = $('#allWall-links')
+  _createWall: function (name, type) {
+    if (type === 'sub'){
+      var $parentOfLinkToWall = $('#allWall-links')
+      var type = 'r/'
     }else{
-      $parentOfLinkToWall = $('#allFeed-links')
+      var $parentOfLinkToWall = $('#allFeed-links')
+      var type = 'f/'
     }
 
-    var wall = this.walls[sub] = {};
-    //tiles collection and view won't be removed
-    wall['name'] = sub;
-
+    var wall = this.walls[name] = {};
+    wall['name'] = name;
     wall['collection'] = new Wreddit.Collections.Tiles();
     wall['view'] = new Wreddit.Views.Wall({
       collection: wall['collection'],
-      tagName: "div id='"+sub+"'",
-      sub: sub,
+      tagName: "div id='"+name+"'",
+      sub: name,
     })
     $('#allWalls').append(wall.view.$el);
-    $parentOfLinkToWall.prepend('<li draggable="true" ondragstart="drag(event)" id='+sub+'-wall-link> <a href="#r/'+sub+'"id="all-wall-link">'+sub+'</a></li>');
+    $parentOfLinkToWall.prepend('<li ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)" id=_link'+name+'> <a href="#'+type+name.substring(3)+'" id="all-wall-link">'+name.substring(3)+'</a></li>');
   },
 
   //hide all walls, then show showWall
   _swapWall: function (showWall){
+
     console.log("_swapWall("+showWall.name+")")
     this.$minorEl.hide();
     this.$rootEl.show();

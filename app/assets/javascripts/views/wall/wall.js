@@ -9,13 +9,17 @@ Wreddit.Views.Wall = Backbone.View.extend({
     this.$el.append(renderedContent);
   },
   loadMore: function(){
-    var that = this;
-    this.collection.getMore(this.sub.split(' '), function(newTiles){
-      that.loading = false;
-      for(var $i = 0; $i < newTiles.length; $i++){
-        that.addTile(newTiles[$i])
-      }
-    })
+    if(this.sub.substring(0,3) === '_r_'){
+      var that = this;
+      this.collection.getMore(this.sub.substring(3).split(' '),
+      function(newTiles){
+        that.loading = false;
+        for(var $i = 0; $i < newTiles.length; $i++){
+          that.addTile(newTiles[$i])
+        }
+      })
+    }else{
+    }
   },
   render: function () {
     var that = this;
