@@ -1,5 +1,5 @@
 <!--A hidden tile that shows and appends itself-->
-<div draggable="true" ondragstart="drag(event)" id='<%=tile.cid%>' class="tile panel panel-primary">
+<div id='<%=tile.cid%>' class="tile panel panel-primary">
   <a id='<%=tile.cid%>' href='<%= tile.get('url') %>'>
     <%= tile.cid%>: <%=tile.get('title')%>
   </a>
@@ -10,44 +10,47 @@
         <img id='<%=tile.cid%>' class='tile-image' src='<%= tile.get('imgSrc') %>'>
       </a>
     <% } %>
-
   </div>
-</div>
 
-<!-- Show this modal when images are clicked -->
-<div class="modal fade" id="<%= tile.cid%>-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel"><%=tile.get('title')%></h4>
-      </div>
-      <div class="modal-body">
-        <img id='<%=tile.cid%>' class='modal-image' src='<%= tile.get('imgSrc') %>'>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  <!-- Show this modal when images are clicked -->
+  <div class="modal fade" id="<%= tile.cid%>-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel"><%=tile.get('title')%></h4>
+        </div>
+        <div class="modal-body">
+          <img id='<%=tile.cid%>' class='modal-image' src='<%= tile.get('imgSrc') %>'>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<script>
-if(<%=!!tile.get('imgSrc')%>){
-  $('#<%=tile.cid%>').hide();
-  var imgLoad = imagesLoaded('#<%=tile.cid%>')
-  imgLoad.on( 'done', function(){
-    $('#<%=tile.cid%>').show()
+  <script>
+  if(<%=!!tile.get('imgSrc')%>){
+    $('#<%=tile.cid%>').hide();
+    var imgLoad = imagesLoaded('#<%=tile.cid%>')
+    imgLoad.on( 'done', function(){
+      $('#<%=tile.cid%>').show()
+      <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
+    })
+
+    imgLoad.on( 'fail', function(){
+      $('#<%=tile.cid%>').remove();
+    })
+  } else if(<%=!!tile.get('media')%>){
     <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
-  })
-} else if(<%=!!tile.get('media')%>){
-  <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
-}else{
-  <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
-}
-</script>
+  }else{
+    <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
+  }
+  </script>
 
-<div id='testest'>
+
 </div>
-<% $(document).ready(function (){ %>
-<% }) %>
+
+
+

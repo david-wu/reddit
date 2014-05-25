@@ -52,10 +52,12 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
       var $parentOfLinkToWall = $('#allWall-links')
       var typeId = 'r/'
       var wall = this.subs[wallName] = {};
+      var appendOrPrepend = 'append'
     }else if (type === 'feed'){
       var $parentOfLinkToWall = $('#allFeed-links')
       var typeId = 'f/'
       var wall = this.feeds[wallName] = {};
+      var appendOrPrepend = 'prepend'
     }
 
     wall['name'] = wallName;
@@ -68,16 +70,14 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     })
     $('#allWalls').append(wall['view'].$el);
 
-    $parentOfLinkToWall.prepend('<li ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)" id=_link'+wallName+'> <a href="#'+typeId+wallName+'" id="all-wall-link">'+wallName+'</a></li>');
+    $parentOfLinkToWall[appendOrPrepend]('<li id=_link'+wallName+'> <a href="#'+typeId+wallName+'" class="wall-link">'+wallName+'</a></li>');
   },
-
-  //hide all walls, then show showWall
   _swapWall: function (showWall){
-
     console.log("_swapWall("+showWall.name+")")
     this.$minorEl.hide();
     this.$rootEl.show();
 
+    //hide all walls, then show showWall
     subsArr = Object.keys(this.subs);
     for(var $i = 0; $i < subsArr.length; $i++){
       this.subs[subsArr[$i]].view.$el.hide();
@@ -89,8 +89,14 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     showWall.view.$el.show();
     window[showWall.name + 'msnry'].layout();
 
-    //keep calling loadMore() until page is full
+
+    //call loadMore() until page is full
+    var attemptsLeft = 25;
     function initialLoadMore () {
+      attemptsLeft--;
+      if (attemptsLeft <= 0){
+        return false;
+      }
       if($(document).height() > $(window).height()*1.5){
         return false;
       } else if(!showWall.view.loading){

@@ -28,19 +28,47 @@ Wreddit.Views.Wall = Backbone.View.extend({
     } else if(this.type === 'feed'){
       this.collection.fetch({
         success: function(){
-          console.log("david, work on rails")
+          console.log("david, work on rails. serious")
         },
       })
     }
   },
   render: function () {
     var that = this;
-    this.$el.html(JST['wall/mason']({
-      wallName: this.wallName,
-      view: this,
-    }))
+
     this.collection.each(function(tile){
       that.addTile(tile);
+    })
+
+    $('.wall.'+this.wallName).sortable({
+      items: ".tile",
+      tolerance: 'pointer',
+      connectWith: ".wall-link",
+      placeholder: '#nothing',
+      //
+      // receive: function (event, ui) {
+      //           event.preventDefault();
+      //   console.log("receive", event, ui);
+      // },
+      stop: function (event, ui) {
+                event.preventDefault();
+        console.log("stop", event, ui);
+      },
+    })
+
+    $('.wall-link').sortable({
+      items: ".wall-link",
+      tolerance: 'pointer',
+      placeholder: '#nothing',
+      connectWith: ".wall-link",
+      // receive: function (event, ui) {
+      //           event.preventDefault();
+      //   console.log("receive", event, ui);
+      // },
+      // stop: function (event, ui) {
+      //           event.preventDefault();
+      //   console.log("stop", event, ui);
+      // },
     })
 
     return this;
@@ -49,5 +77,10 @@ Wreddit.Views.Wall = Backbone.View.extend({
     this.type = options.type;
     this.wallName = options.wallName;
     this.loading = false;
+
+    this.$el.html(JST['wall/mason']({
+      wallName: this.wallName,
+      view: this,
+    }))
   },
 })

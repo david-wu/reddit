@@ -1,34 +1,10 @@
 <!--Masons place and organize Tiles-->
-
 <script>
   var container = document.querySelector('.wall.<%=wallName%>');
   var <%=wallName%>msnry = new Masonry( container, {
    columnWidth: 360,
   });
   <%=wallName%>msnry.layout();
-
-  //drag n drop functions
-  function allowDrop(ev){
-    ev.preventDefault();
-  }
-
-  function drag(ev){
-    ev.dataTransfer.setData("Text",ev.target.id);
-  }
-
-
-  function drop(ev){
-    ev.preventDefault();
-    var data=ev.dataTransfer.getData("Text");
-    console.log("sending "+data+" to "+ev.target.parentElement.id);
-
-
-    if(ev.target.parentElement.id === 'trash-drop'){
-      document.getElementById(data).remove();
-      <%=wallName%>msnry.layout();
-      console.log(<%=wallName%>)
-    }
-  }
 </script>
 
 <!-- infinite scroll -->
@@ -36,5 +12,11 @@
   <% if (!view.loading && $(window).scrollTop() >= ( $(document).height() - $(window).height()*1.5)){ %>
     <% view.loading = true;%>
     <% view.loadMore(); %>
+  <% } %>
+
+<!-- deletes old tiles -->
+  <% var allTiles = $('.tile'); %>
+  <% if(allTiles.length > 200){ %>
+    <% window[wallName + 'msnry'].remove($('.tile').slice(0,25)); %>
   <% } %>
 <% }) %>

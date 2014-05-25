@@ -15,13 +15,15 @@
  */
 @import "bootstrap";
 .tile {
-    width: 350px;/* you can use % */
+    width: 350px;
     height: auto;
+
     display: inline-block;
 }
 
 .tile-image {
-    width: 348px; /* you can use % */
+
+    width: 348px;
     height: auto;
 }
 
@@ -30,3 +32,5 @@ body {
   padding-left: 15px;
 }
 
+#nothing {
+}
