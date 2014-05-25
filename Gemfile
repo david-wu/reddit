@@ -5,6 +5,8 @@ group :development do
  gem 'binding_of_caller'
  # gem 'sqlite3'
 end
+gem 'pg'
+
 
 gem 'backbone-on-rails'
 gem 'devise'
