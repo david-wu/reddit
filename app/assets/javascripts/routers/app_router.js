@@ -74,6 +74,11 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     $parentOfLinkToWall[appendOrPrepend]('<li id=_link'+wallName+'> <a href="#'+typeId+wallName+'" class="wall-link">'+wallName+'</a></li>');
   },
   _swapWall: function (showWall){
+    if(this._currentWall){
+      this._currentWall.lastPos = $(window).scrollTop();
+    }
+    this._currentWall = showWall;
+
     console.log("_swapWall("+showWall.name+")")
     this.$minorEl.hide();
     this.$rootEl.show();
@@ -90,6 +95,14 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     showWall.view.$el.show();
     window[showWall.name + 'msnry'].layout();
     console.log(window[showWall.name + 'msnry']);
+
+    if(showWall.lastPos){
+      $('html, body').animate({
+          scrollTop: showWall.lastPos,
+          scrollLeft: 0
+      }, 0);
+    }
+
 
     //call loadMore() until page is full
     var attemptsLeft = 25;

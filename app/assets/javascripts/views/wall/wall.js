@@ -6,7 +6,7 @@ Wreddit.Views.Wall = Backbone.View.extend({
   template: JST['wall/index'],
   addTile: function(tile) {
 
-      console.log('adding tile')
+      console.log('adding tile1')
 
       var that = this;
       that.collection.add(tile);
@@ -24,7 +24,7 @@ Wreddit.Views.Wall = Backbone.View.extend({
 
     if(that.collection._isUnique(tile)){
 
-      console.log('adding tile')
+      console.log('adding tile2')
 
 
       that.collection.add(tile);
@@ -81,7 +81,7 @@ Wreddit.Views.Wall = Backbone.View.extend({
         var sentModel = window.Wreddit.router.subs[ui.item[0].classList[0]].collection.get(ui.item[0].id);
         var targetView = window.Wreddit.router.feeds[event.toElement.firstChild.data].view;
 
-        console.log(sentModel, targetView);
+        // console.log(sentModel, targetView);
         targetView.addTile2(sentModel);
       },
     })
