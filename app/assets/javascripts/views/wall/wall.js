@@ -5,12 +5,36 @@
 Wreddit.Views.Wall = Backbone.View.extend({
   template: JST['wall/index'],
   addTile: function(tile) {
-    this.collection.add(tile);
-    var renderedContent = JST['wall/tile']({
-      tile: tile,
-      wallName: this.wallName
-    })
-    this.$el.append(renderedContent);
+
+      console.log('adding tile')
+
+      var that = this;
+      that.collection.add(tile);
+      var renderedContent = JST['wall/tile']({
+        tile: tile,
+        wallName: that.wallName,
+        stealthAdd: false
+      })
+
+      that.$el.append(renderedContent);
+    // }
+  },
+  addTile2: function(tile) {
+          var that = this;
+
+    if(that.collection._isUnique(tile)){
+
+      console.log('adding tile')
+
+
+      that.collection.add(tile);
+      var renderedContent = JST['wall/tile']({
+        tile: tile,
+        wallName: that.wallName,
+        stealthAdd: true,
+      })
+      that.$el.append(renderedContent);
+    }
   },
   loadMore: function(){
     this.loading = true;
@@ -45,30 +69,37 @@ Wreddit.Views.Wall = Backbone.View.extend({
       tolerance: 'pointer',
       connectWith: ".wall-link",
       placeholder: '#nothing',
-      //
-      // receive: function (event, ui) {
-      //           event.preventDefault();
-      //   console.log("receive", event, ui);
-      // },
+      start: function(event, ui) {
+        event.preventDefault;
+      },
+      receive: function(event, ui) {
+        event.preventDefault;
+      },
       stop: function (event, ui) {
-                event.preventDefault();
-        console.log("stop", event, ui);
+        event.preventDefault();
+
+        var sentModel = window.Wreddit.router.subs[ui.item[0].classList[0]].collection.get(ui.item[0].id);
+        var targetView = window.Wreddit.router.feeds[event.toElement.firstChild.data].view;
+
+        console.log(sentModel, targetView);
+        targetView.addTile2(sentModel);
       },
     })
 
     $('.wall-link').sortable({
       items: ".wall-link",
       tolerance: 'pointer',
-      placeholder: '#nothing',
       connectWith: ".wall-link",
-      // receive: function (event, ui) {
-      //           event.preventDefault();
-      //   console.log("receive", event, ui);
-      // },
-      // stop: function (event, ui) {
-      //           event.preventDefault();
-      //   console.log("stop", event, ui);
-      // },
+      start: function(event, ui) {
+        event.preventDefault;
+      },
+      receive: function(event, ui) {
+        event.preventDefault;
+      },
+      stop: function(event, ui) {
+        event.preventDefault;
+      },
+
     })
 
     return this;
@@ -82,5 +113,8 @@ Wreddit.Views.Wall = Backbone.View.extend({
       wallName: this.wallName,
       view: this,
     }))
+
+
+
   },
 })

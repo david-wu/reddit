@@ -56,11 +56,16 @@ Wreddit.Collections.Tiles = Backbone.Collection.extend({
   },
   _isUnique: function(candidateTile){
 
-    this.each(function(tile){
-      if(tile.get('url') === candidateTile.get('url')){
+    for(var i = 0; i<this.length; i++){
+      if(this.models[0].get('url') == candidateTile.get('url')){
         return false;
       }
-    })
+    }
+    // this.each(function(tile){
+//       if(tile.get('url') == candidateTile.get('url')){
+//         return false;
+//       }
+//     })
     return true;
   }
 })

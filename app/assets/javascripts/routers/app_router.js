@@ -24,6 +24,7 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
       this._createWall(feedName, 'feed');
       this.feeds[feedName].view.render();
     }
+    // this.feeds[feedName].view.render();
     this._swapWall(this.feeds[feedName]);
   },
   signUp: function () {
@@ -88,7 +89,7 @@ Wreddit.Routers.Tiles = Backbone.Router.extend({
     }
     showWall.view.$el.show();
     window[showWall.name + 'msnry'].layout();
-
+    console.log(window[showWall.name + 'msnry']);
 
     //call loadMore() until page is full
     var attemptsLeft = 25;

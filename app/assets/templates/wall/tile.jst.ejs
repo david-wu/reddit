@@ -1,5 +1,5 @@
 <!--A hidden tile that shows and appends itself-->
-<div id='<%=tile.cid%>' class="tile panel panel-primary">
+<div id='<%=tile.cid%>' class="<%=wallName%> tile panel panel-primary">
   <a id='<%=tile.cid%>' href='<%= tile.get('url') %>'>
     <%= tile.cid%>: <%=tile.get('title')%>
   </a>
@@ -31,21 +31,26 @@
   </div>
 
   <script>
-  if(<%=!!tile.get('imgSrc')%>){
-    $('#<%=tile.cid%>').hide();
-    var imgLoad = imagesLoaded('#<%=tile.cid%>')
-    imgLoad.on( 'done', function(){
-      $('#<%=tile.cid%>').show()
-      <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
-    })
+  if(<%=!stealthAdd%>){
+    if(<%=!!tile.get('imgSrc')%>){
+      $('#<%=tile.cid%>').hide();
+      var imgLoad = imagesLoaded('#<%=tile.cid%>')
+      imgLoad.on( 'done', function(){
+        $('#<%=tile.cid%>').show()
+        <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
+      })
 
-    imgLoad.on( 'fail', function(){
-      $('#<%=tile.cid%>').remove();
-    })
-  } else if(<%=!!tile.get('media')%>){
-    <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
+      imgLoad.on( 'fail', function(){
+        $('#<%=tile.cid%>').remove();
+      })
+    } else if(<%=!!tile.get('media')%>){
+      <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
+    }else{
+      <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
+    }
   }else{
-    <%=wallName%>msnry.appended($('#<%=tile.cid%>'))
+    $('.<%=wallName%>#<%=tile.cid%>').hide();
+    <%=wallName%>msnry.appended($('.<%=wallName%>#<%=tile.cid%>'))
   }
   </script>
 
