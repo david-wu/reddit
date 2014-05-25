@@ -38,3 +38,10 @@ Backbone:
 
 SubReddit View
   SubRedditCollection uses TileModel
+
+
+heroku create
+git push heroku master
+heroku open
+
+game 'rails_12factor'
